@@ -9,6 +9,8 @@
     "react-router-dom": "^4.0.0"
   },
   "devDependencies": {
+    "change-case": "3.0.1",
+    "flow-bin": "^0.42.0",
     "react-scripts": "0.9.5"
   },
   "scripts": {
