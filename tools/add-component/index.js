@@ -71,7 +71,7 @@ function buildJSTemplate(ComponentName, className) {
   return `\
 // @flow
 // eslint-disable-next-line no-unused-vars
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { css } from 'aphrodite';
 
 import styles from './${ComponentName}.styles';
@@ -83,10 +83,6 @@ const ${ComponentName} = () => {
       Your Component Here :)
     </div>
   );
-};
-
-${ComponentName}.propTypes = {
-
 };
 
 ${ComponentName}.defaultProps = {

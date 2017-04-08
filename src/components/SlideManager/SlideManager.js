@@ -21,21 +21,24 @@ export class SlideManager extends Component {
     window.removeEventListener('keydown', this.handleKeydown);
   }
 
-  handleKeydown = (ev: MouseEvent) => {
-    console.log(ev.code, this.props);
+  handleKeydown = (ev: MouseEvent): void => {
     switch (ev.code) {
       case 'ArrowLeft': return this.updateSlide(-1);
       case 'ArrowRight': return this.updateSlide(1);
     }
   }
 
-  updateSlide(adjustment) {
+  updateSlide(adjustment): void {
     const { history } = this.props;
 
     const currentSlide = history.location.pathname.replace(/^\//, '');
-    const nextRoute = Number(currentSlide) + adjustment;
+    let nextRoute = Number(currentSlide) + adjustment;
 
-    console.log(nextRoute);
+    if (nextRoute <= 0) {
+        // Slide numbers start at `1`.
+        // If the number is 0 or below, just redirect to the homepage.
+        nextRoute = '';
+    }
 
     history.push('/'+nextRoute);
   }

@@ -1,10 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, history, location } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from 'react-router-dom';
 
 import SlideManager from '../SlideManager';
 
 import Title from '../../slides/Title';
+import ThankYou from '../../slides/ThankYou';
 
 
 const TempPathComponent = ({ location: { pathname } }) => <div>{pathname}</div>;
@@ -14,11 +19,14 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Route path="/1" component={Title} />
-          <Route path="/2" component={TempPathComponent} />
-          <Route path="/3" component={TempPathComponent} />
-          <Route path="/4" component={TempPathComponent} />
+          <Switch>
+            <Route exact path="/" component={Title} />
+            <Route path="/1" component={TempPathComponent} />
+            <Route path="/2" component={TempPathComponent} />
+            <Route path="/3" component={TempPathComponent} />
+            <Route component={ThankYou} />
 
+          </Switch>
           <SlideManager />
         </div>
       </Router>
