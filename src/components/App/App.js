@@ -2,20 +2,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, history, location } from 'react-router-dom';
 
-import Title from '../Title';
 import SlideManager from '../SlideManager';
+
+import Title from '../../slides/Title';
 
 
 const TempPathComponent = ({ location: { pathname } }) => <div>{pathname}</div>;
 
 class App extends Component {
-  updateSlide(direction) {
-    console.log(history);
-    if (direction === 'forward') {
-      history.push(history.location.pathname)
-    }
-  }
-
   render() {
     return (
       <Router>
@@ -25,10 +19,7 @@ class App extends Component {
           <Route path="/3" component={TempPathComponent} />
           <Route path="/4" component={TempPathComponent} />
 
-          <SlideManager
-            goBack={() => this.updateSlide('back')}
-            goForward={() => this.updateSlide('forward')}
-          />
+          <SlideManager />
         </div>
       </Router>
     );

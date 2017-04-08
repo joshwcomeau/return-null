@@ -1,6 +1,6 @@
 // @flow
 // eslint-disable-next-line no-unused-vars
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { css } from 'aphrodite';
 
 import styles from './Title.styles';
@@ -13,10 +13,6 @@ const Title = () => {
       <h4 className={css(styles.author)}>Joshua Comeau</h4>
     </div>
   );
-};
-
-Title.propTypes = {
-
 };
 
 Title.defaultProps = {
