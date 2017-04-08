@@ -72,7 +72,7 @@ function buildJSTemplate(ComponentName, className) {
 // @flow
 // eslint-disable-next-line no-unused-vars
 import React, { Component, PropTypes } from 'react';
-import { css } from '../../extensions/aphrodite';
+import { css } from 'aphrodite';
 
 import styles from './${ComponentName}.styles';
 
