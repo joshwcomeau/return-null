@@ -6,7 +6,8 @@
     "aphrodite": "^1.2.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-router-dom": "^4.0.0"
+    "react-router-dom": "^4.0.0",
+    "spectacle-code-slide": "^0.3.1"
   },
   "devDependencies": {
     "change-case": "3.0.1",
