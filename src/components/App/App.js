@@ -9,6 +9,7 @@ import {
 import SlideManager from '../SlideManager';
 
 import Title from '../../slides/Title';
+import SpeakDemo from '../../slides/SpeakDemo';
 import ThankYou from '../../slides/ThankYou';
 
 
@@ -21,12 +22,12 @@ class App extends Component {
         <div>
           <Switch>
             <Route exact path="/" component={Title} />
-            <Route path="/1" component={TempPathComponent} />
+            <Route path="/1" component={SpeakDemo} />
             <Route path="/2" component={TempPathComponent} />
             <Route path="/3" component={TempPathComponent} />
             <Route component={ThankYou} />
           </Switch>
-          
+
           <SlideManager />
         </div>
       </Router>

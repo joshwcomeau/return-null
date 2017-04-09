@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { css } from 'aphrodite';
 
+import Speak from '../Speak';
 import styles from './DictationBox.styles';
 
 
@@ -12,16 +13,13 @@ class DictationBox extends Component {
     dictate: boolean,
   }
 
-  constructor(props) {
-    super(props);
+  state = {
+    message: 'Hello World',
+    dictate: false,
+  };
 
-    this.state = {
-      message: 'Hello World',
-      dictate: false,
-    };
-  }
-
-  updateMessage = (ev: KeyboardEvent) => {
+  updateMessage = (ev: SyntheticInputEvent) => {
+    console.log(ev, ev.target)
     this.setState({ message: ev.target.value });
   }
 
@@ -34,15 +32,22 @@ class DictationBox extends Component {
 
     return (
       <div className={css(styles.dictationBox)}>
-        <textarea onChange={this.updateMessage}>{message}</textarea>
+        <textarea onChange={this.updateMessage} value={message} />
+
+        <label>
+          <input
+            type="checkbox"
+            checked={dictate}
+            onChange={this.toggleDictation}
+          />
+          Enable Dictation
+        </label>
+
         {dictate && <Speak>{message}</Speak>}
       </div>
     );
   }
 };
 
-DictationBox.defaultProps = {
-
-};
 
 export default DictationBox;
