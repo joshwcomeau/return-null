@@ -2,17 +2,15 @@
 // eslint-disable-next-line no-unused-vars
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router-dom';
-import { css } from 'aphrodite';
-
-import styles from './SlideManager.styles';
 
 
 type Props = {
-  goBack: () => void,
-  goForward: () => void,
+  history: any,
 };
 
 export class SlideManager extends Component {
+  props: Props
+
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeydown);
   }
@@ -25,6 +23,8 @@ export class SlideManager extends Component {
     switch (ev.key) {
       case 'ArrowLeft': return this.updateSlide(-1);
       case 'ArrowRight': return this.updateSlide(1);
+      default:
+        // Ignore all other key events
     }
   }
 

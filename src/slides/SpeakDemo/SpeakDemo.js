@@ -1,7 +1,5 @@
 // @flow
-// eslint-disable-next-line no-unused-vars
-import React, { Component } from 'react';
-import { css } from 'aphrodite';
+import React from 'react';
 
 import ComponentName from '../../components/ComponentName';
 import DictationBox from '../../components/DictationBox';

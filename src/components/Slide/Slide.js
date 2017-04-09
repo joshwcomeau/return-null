@@ -10,9 +10,9 @@ type Props = {
   title: any,
 };
 
-const Slide = ({ children, title }: Props) => {
+const Slide = ({ children, title, ...delegated }: Props) => {
   return (
-    <div className={css(styles.slide)}>
+    <div className={css(styles.slide, delegated.className)}>
       {title && <h2 className={css(styles.title)}>{title}</h2>}
 
       <div className={css(styles.contents)}>

@@ -1,8 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
-import { css } from 'aphrodite';
-
-import styles from './Speak.styles';
+import { PureComponent } from 'react';
 
 
 type Props = {
