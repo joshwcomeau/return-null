@@ -21,14 +21,14 @@ export class SlideManager extends Component {
     window.removeEventListener('keydown', this.handleKeydown);
   }
 
-  handleKeydown = (ev: MouseEvent): void => {
-    switch (ev.code) {
+  handleKeydown = (ev: SyntheticKeyboardEvent): void => {
+    switch (ev.key) {
       case 'ArrowLeft': return this.updateSlide(-1);
       case 'ArrowRight': return this.updateSlide(1);
     }
   }
 
-  updateSlide(adjustment): void {
+  updateSlide(adjustment: -1 | 1): void {
     const { history } = this.props;
 
     const currentSlide = history.location.pathname.replace(/^\//, '');

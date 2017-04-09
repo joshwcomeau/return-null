@@ -5,15 +5,19 @@ import { css } from 'aphrodite';
 import styles from './Speak.styles';
 
 
-class Speak extends PureComponent {
-  props: {
-    language: string,
-    children: string,
-  }
+type Props = {
+  language: string,
+  children: string,
+};
 
-  state: {
-    voicesLoaded: boolean,
-  }
+type State = {
+  voicesLoaded: boolean,
+};
+
+class Speak extends PureComponent {
+  props: Props
+  state: State
+  utterance: window.SpeechSynthesisUtterance
 
   static defaultProps = {
     language: 'en',
@@ -23,25 +27,19 @@ class Speak extends PureComponent {
     voicesLoaded: false,
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
-    this.utterance = new SpeechSynthesisUtterance();
-
-
+    this.utterance = new window.SpeechSynthesisUtterance();
 
     // The very first time we try to access the voices, none will be found.
     // This is because they're loaded async when requested.
-    // Let's force it to update by making a check now, and then updating our
-    // utterance once they're ready.
     window.speechSynthesis.onvoiceschanged = () => {
-      console.log('Voices ready!');
       this.setState({ voicesLoaded: true });
     }
   }
 
-  componentWillUpdate(nextProps) {
-    console.log('Update!', nextProps);
+  componentWillUpdate(nextProps: Props) {
     window.speechSynthesis.cancel();
 
     this.updateUtterance(nextProps);
@@ -51,10 +49,8 @@ class Speak extends PureComponent {
     window.speechSynthesis.cancel();
   }
 
-  updateUtterance(props) {
-    console.log('Updating!', window.speechSynthesis.getVoices());
+  updateUtterance(props: Props) {
     this.utterance.voice = window.speechSynthesis.getVoices().find(voice => (
-      console.log('testing', voice.lang , props.language) ||
       voice.lang === props.language
     ));
 
