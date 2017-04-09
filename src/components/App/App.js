@@ -25,8 +25,8 @@ class App extends Component {
             <Route path="/2" component={TempPathComponent} />
             <Route path="/3" component={TempPathComponent} />
             <Route component={ThankYou} />
-
           </Switch>
+          
           <SlideManager />
         </div>
       </Router>
