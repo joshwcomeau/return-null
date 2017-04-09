@@ -32,6 +32,8 @@ class Speak extends PureComponent {
 
     this.utterance = new window.SpeechSynthesisUtterance();
 
+    this.updateUtterance(props);
+
     // The very first time we try to access the voices, none will be found.
     // This is because they're loaded async when requested.
     window.speechSynthesis.onvoiceschanged = () => {

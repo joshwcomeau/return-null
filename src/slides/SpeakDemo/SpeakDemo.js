@@ -3,19 +3,24 @@
 import React, { Component } from 'react';
 import { css } from 'aphrodite';
 
+import ComponentName from '../../components/ComponentName';
 import DictationBox from '../../components/DictationBox';
+import Slide from '../../components/Slide';
 import styles from './SpeakDemo.styles';
 
 
 const SpeakDemo = () => {
   return (
-    <div className={css(styles.speakDemo)}>
-      <h3>
-        Demo: <span className={css(styles.mono)}>&lt;Speak&gt;</span>
-      </h3>
-
+    <Slide
+      className={styles.speakDemo}
+      title={
+        <span>
+          Demo: <ComponentName>Speak</ComponentName>
+        </span>
+      }
+    >
       <DictationBox />
-    </div>
+    </Slide>
   );
 };
 

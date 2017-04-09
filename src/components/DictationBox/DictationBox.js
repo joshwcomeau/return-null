@@ -32,9 +32,13 @@ class DictationBox extends Component {
 
     return (
       <div className={css(styles.dictationBox)}>
-        <textarea onChange={this.updateMessage} value={message} />
+        <textarea
+          className={css(styles.textarea)}
+          onChange={this.updateMessage}
+          value={message}
+        />
 
-        <label>
+        <label className={css(styles.label)}>
           <input
             type="checkbox"
             checked={dictate}
