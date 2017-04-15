@@ -6,7 +6,6 @@ import {
   BlockQuote,
   Cite,
   Deck,
-  Fill,
   Heading,
   ListItem,
   List,
@@ -14,6 +13,7 @@ import {
   Slide,
   Text,
 } from "spectacle";
+import DictationBox from "./components/DictationBox";
 
 // Import image preloader util
 import preloader from "spectacle/lib/utils/preloader";
@@ -53,41 +53,43 @@ export default class Presentation extends React.Component {
         progress="bar"
       >
         <Slide bgColor="tertiary">
-          <Fill>
-            <Heading
-              size={1}
-              fit
-              lineHeight={1}
-              textColor="secondary"
-              textFont="tertiary"
-              style={{ fontWeight: 100, letterSpacing: -1 }}
-            >
-              return null;
-            </Heading>
-            <br />
+          <Heading
+            size={1}
+            fit
+            lineHeight={1}
+            textColor="secondary"
+            textFont="tertiary"
+            style={{ fontWeight: 100, letterSpacing: -1 }}
+          >
+            return null;
+          </Heading>
+          <br />
 
-            <Heading size={3} fit textColor="secondary">
-              Experiments with Renderless Components
-            </Heading>
+          <Heading size={3} fit textColor="secondary">
+            Experiments with Renderless Components
+          </Heading>
 
-            <Text style={{ position: "fixed", bottom: 0 }} textColor="primary" size={5}>
-              By Joshua Comeau
-            </Text>
-          </Fill>
+          <Text style={{ marginTop: "20%" }} textColor="primary" size={5}>
+            By Joshua Comeau
+          </Text>
         </Slide>
+
         <Slide bgImage={images.reactRally} />
 
-        <Slide bgColor="tertiary">
-          <Heading size={6} textColor="primary" caps>Typography</Heading>
-          <Heading size={1} textColor="secondary">Heading 1</Heading>
-          <Heading size={2} textColor="secondary">Heading 2</Heading>
-          <Heading size={3} textColor="secondary">Heading 3</Heading>
-          <Heading size={4} textColor="secondary">Heading 4</Heading>
-          <Heading size={5} textColor="secondary">Heading 5</Heading>
-          <Text size={6} textColor="secondary">Standard text</Text>
+        <Slide bgColor="secondary">
+          <Heading fit textColor="primary">Event Listeners</Heading>
         </Slide>
+
+        <Slide bgColor="secondary">
+          ...Stuff about event listeners
+        </Slide>
+
+        <Slide bgColor="tertiary">
+          <DictationBox />
+        </Slide>
+
         <Slide bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps>Standard List</Heading>
+          <Heading size={6} textColor="secondary">Standard List</Heading>
           <List>
             <ListItem>Item 1</ListItem>
             <ListItem>Item 2</ListItem>
