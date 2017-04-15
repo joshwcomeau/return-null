@@ -1,6 +1,6 @@
 // @flow
-// eslint-disable-next-line no-unused-vars
 import React, { Component } from 'react';
+import debounce from 'lodash/debounce';
 import { css } from 'aphrodite';
 
 import Speak from '../Speak';
@@ -10,21 +10,26 @@ import styles from './DictationBox.styles';
 class DictationBox extends Component {
   state: {
     message: string,
-    dictate: boolean,
   }
 
   state = {
-    message: 'Hello World',
-    dictate: false,
+    message: '',
   };
 
+  constructor() {
+    super();
+
+    this.updateMessage = debounce(this.updateMessage, 500);
+  }
+
   updateMessage = (ev: SyntheticInputEvent) => {
-    console.log(ev, ev.target)
     this.setState({ message: ev.target.value });
   }
 
-  toggleDictation = () => {
-    this.setState({ dictate: !this.state.dictate });
+  handleTextareaChange = (ev: SyntheticInputEvent) => {
+    ev.persist();
+
+    this.updateMessage(ev);
   }
 
   render() {
@@ -33,21 +38,13 @@ class DictationBox extends Component {
     return (
       <div className={css(styles.dictationBox)}>
         <textarea
+          placeholder="Add some text here..."
           className={css(styles.textarea)}
-          onChange={this.updateMessage}
-          value={message}
+          onChange={this.handleTextareaChange}
+          defaultValue={message}
         />
 
-        <label className={css(styles.label)}>
-          <input
-            type="checkbox"
-            checked={dictate}
-            onChange={this.toggleDictation}
-          />
-          Enable Dictation
-        </label>
-
-        {dictate && <Speak>{message}</Speak>}
+        <Speak>{message}</Speak>
       </div>
     );
   }
