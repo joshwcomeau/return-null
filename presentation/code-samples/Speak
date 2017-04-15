@@ -1,0 +1,61 @@
+import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
+
+class Speak extends PureComponent {
+  static propTypes = {
+    language: PropTypes.string,
+    children: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    language: 'en',
+  }
+
+  state = {
+    voicesLoaded: false,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.utterance = new window.SpeechSynthesisUtterance();
+
+    this.updateUtterance(props);
+
+    // The very first time we try to access the voices,
+    // none will be found. This is because they're loaded
+    // async when requested.
+    window.speechSynthesis.onvoiceschanged = () => {
+      this.setState({ voicesLoaded: true });
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    window.speechSynthesis.cancel();
+
+    this.updateUtterance(nextProps);
+  }
+
+  componentWillUnmount() {
+    window.speechSynthesis.cancel();
+  }
+
+  updateUtterance(props: Props) {
+    this.utterance.voice = window.speechSynthesis
+      .getVoices()
+      .find(voice => (
+        voice.lang === props.language
+      ));
+
+    this.utterance.text = props.children;
+  }
+
+  render() {
+    window.speechSynthesis.speak(this.utterance);
+
+    return null;
+  }
+}
+
+export default Speak;

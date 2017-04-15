@@ -1,7 +1,4 @@
-// Import React
 import React from "react";
-
-// Import Spectacle Core tags
 import {
   BlockQuote,
   Cite,
@@ -13,6 +10,8 @@ import {
   Slide,
   Text,
 } from "spectacle";
+
+import CodeSlide from './components/CodeSlide';
 import DictationBox from "./components/DictationBox";
 
 // Import image preloader util
@@ -47,8 +46,8 @@ export default class Presentation extends React.Component {
   render() {
     return (
       <Deck
-        transition={["slide"]}
-        transitionDuration={300}
+        transition={[]}
+        transitionDuration={0}
         theme={theme}
         progress="bar"
       >
@@ -87,6 +86,25 @@ export default class Presentation extends React.Component {
         <Slide bgColor="tertiary">
           <DictationBox />
         </Slide>
+
+        <CodeSlide
+          code={require("raw-loader!./code-samples/Speak-consumption")}
+          ranges={[
+            { loc: [0, 3], title: "It's a component!" },
+          ]}
+        />
+
+        <CodeSlide
+          code={require("raw-loader!./code-samples/Speak")}
+          ranges={[
+            { loc: [0, 270], title: "Let's see how it works." },
+            { loc: [4, 17] },
+            { loc: [18, 32] },
+            { loc: [33, 42] },
+            { loc: [43, 52] },
+            { loc: [53, 58] },
+          ]}
+        />
 
         <Slide bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary">Standard List</Heading>

@@ -9,6 +9,7 @@
     "lint": "eslint --ext .js,.jsx .",
     "deploy": "npm run clean & npm run build && surge -p .",
     "start": "cross-env NODE_ENV=development node server.js",
+    "flow": "flow",
     "add-component": "NODE_ENV=development node tools/add-component/index.js"
   },
   "author": "",
@@ -17,9 +18,11 @@
     "aphrodite": "^1.2.0",
     "change-case": "^3.0.1",
     "normalize.css": "3.0.3",
+    "prop-types": "^15.5.8",
     "react": "15.4.2",
     "react-dom": "15.4.2",
-    "spectacle": "^2.0.0"
+    "spectacle": "^2.0.0",
+    "spectacle-code-slide": "^0.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
