@@ -22,7 +22,7 @@ function run(ComponentName) {
 
   const componentDirectory = path.join(
     __dirname,
-    '../../src/components',
+    '../../presentation/components',
     ComponentName
   );
   createDirectory(componentDirectory);
