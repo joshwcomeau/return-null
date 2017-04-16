@@ -52,6 +52,7 @@ export default class Presentation extends React.Component {
         theme={theme}
         progress="bar"
       >
+        {/* Title Screen */}
         <Slide bgColor="tertiary">
           <Heading
             size={1}
@@ -74,7 +75,30 @@ export default class Presentation extends React.Component {
           </Text>
         </Slide>
 
+        {/* Ryan Florence React Rally */}
         <Slide bgImage={images.reactRally} />
+        
+        {/* Simple example of a renderless component */}
+        <CodeSlide
+          code={require("raw-loader!./code-samples/BasicExample")}
+          ranges={[
+            { loc: [0, 18], title: "Basic Example: Logging." },
+            { loc: [0, 7] },
+            { loc: [9, 18] },
+          ]}
+        />
+
+        <Slide>
+          <Heading size={2}>Usecases</Heading>
+
+          <List>
+            <ListItem>Event Handlers</ListItem>
+            <ListItem>Non-visual UI (eg. Web Audio)</ListItem>
+            <ListItem>Non-DOM UI (eg. Canvas)</ListItem>
+            <ListItem>Network Requests</ListItem>
+            <ListItem>Anything that changes over time</ListItem>
+          </List>
+        </Slide>
 
         <Slide bgColor="secondary">
           <Heading fit textColor="primary">Event Listeners</Heading>

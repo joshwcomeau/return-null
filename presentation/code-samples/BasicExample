@@ -1,0 +1,17 @@
+class Log extends PureComponent {
+  render() {
+    console.log(this.children);
+
+    return null;
+  }
+}
+
+
+// In practice:
+const UserProfile = ({ currentUser }) => (
+  <div>
+    <h1>{currentUser.name}</h1>
+
+    <Log>{currentUser}</Log>
+  </div>
+);
