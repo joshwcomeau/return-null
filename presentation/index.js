@@ -13,6 +13,7 @@ import {
 
 import CodeSlide from './components/CodeSlide';
 import DictationBox from "./components/DictationBox";
+import DictationBoxWithTranslate from "./components/DictationBoxWithTranslate";
 
 // Import image preloader util
 import preloader from "spectacle/lib/utils/preloader";
@@ -105,6 +106,10 @@ export default class Presentation extends React.Component {
             { loc: [53, 58] },
           ]}
         />
+
+        <Slide bgColor="tertiary">
+          <DictationBoxWithTranslate />
+        </Slide>
 
         <Slide bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary">Standard List</Heading>

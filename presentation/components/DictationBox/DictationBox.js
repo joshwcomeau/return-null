@@ -33,7 +33,7 @@ class DictationBox extends Component {
   }
 
   render() {
-    const { message, dictate } = this.state;
+    const { message } = this.state;
 
     return (
       <div className={css(styles.dictationBox)}>
@@ -44,7 +44,7 @@ class DictationBox extends Component {
           defaultValue={message}
         />
 
-        <Speak>{message}</Speak>
+      <Speak message={message} />
       </div>
     );
   }

@@ -12,10 +12,6 @@ class Speak extends PureComponent {
     language: 'en',
   }
 
-  state = {
-    voicesLoaded: false,
-  }
-
   constructor(props) {
     super(props);
 
@@ -23,12 +19,15 @@ class Speak extends PureComponent {
 
     this.updateUtterance(props);
 
-    // The very first time we try to access the voices,
-    // none will be found. This is because they're loaded
-    // async when requested.
-    window.speechSynthesis.onvoiceschanged = () => {
-      this.setState({ voicesLoaded: true });
-    }
+    // When the browser loads, it doesn't automatically try
+    // to figure out which voices are available. We need to
+    // create an utterance for it to check, and this is an
+    // asynchronous process.
+    // So we need to register a callback.
+    // Real life is messy.
+    window.speechSynthesis.onvoiceschanged = () => (
+      this.forceUpdate()
+    );
   }
 
   componentWillUpdate(nextProps) {
@@ -41,7 +40,7 @@ class Speak extends PureComponent {
     window.speechSynthesis.cancel();
   }
 
-  updateUtterance(props: Props) {
+  updateUtterance(props) {
     this.utterance.voice = window.speechSynthesis
       .getVoices()
       .find(voice => (

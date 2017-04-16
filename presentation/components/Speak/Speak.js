@@ -4,24 +4,15 @@ import { PureComponent } from 'react';
 
 type Props = {
   language: string,
-  children: string,
-};
-
-type State = {
-  voicesLoaded: boolean,
+  message: string,
 };
 
 class Speak extends PureComponent {
   props: Props
-  state: State
   utterance: window.SpeechSynthesisUtterance
 
   static defaultProps = {
     language: 'en',
-  }
-
-  state = {
-    voicesLoaded: false,
   }
 
   constructor(props: Props) {
@@ -34,7 +25,7 @@ class Speak extends PureComponent {
     // The very first time we try to access the voices, none will be found.
     // This is because they're loaded async when requested.
     window.speechSynthesis.onvoiceschanged = () => {
-      this.setState({ voicesLoaded: true });
+      this.forceUpdate()
     }
   }
 
@@ -50,10 +41,11 @@ class Speak extends PureComponent {
 
   updateUtterance(props: Props) {
     this.utterance.voice = window.speechSynthesis.getVoices().find(voice => (
-      voice.lang === props.language
+      voice.lang.startsWith(props.language)
     ));
 
-    this.utterance.text = props.children;
+    this.utterance.lang = props.language;
+    this.utterance.text = props.message;
   }
 
   render() {

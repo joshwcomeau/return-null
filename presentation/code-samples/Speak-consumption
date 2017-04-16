@@ -1,3 +1,4 @@
-<Speak language="english">
-  Hello Paris!
-</Speak>
+<Speak
+  language="en"
+  message="Hello Paris!"
+/>
