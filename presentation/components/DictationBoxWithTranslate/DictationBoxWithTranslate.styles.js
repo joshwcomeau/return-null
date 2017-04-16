@@ -13,15 +13,10 @@ export default StyleSheet.create({
   },
 
   buttonRow: {
-    display: 'flex'
+    width: 500,
+    display: 'flex',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '1rem',
   },
-
-  button: {
-    flex: 1,
-  },
-
-  active: {
-    background: 'blue',
-    color: 'white'
-  }
 });

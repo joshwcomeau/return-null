@@ -12,6 +12,7 @@ class Translate extends PureComponent {
   }
 
   state = {
+    pending: true,
     translatedMessage: null,
   }
 
@@ -25,8 +26,6 @@ class Translate extends PureComponent {
       return;
     }
 
-    console.log('Comparing', source, target)
-
     // If the source and target languages are the same, no translation
     // is needed. We still want to pass it down though.
     if (source === target) {
@@ -39,6 +38,11 @@ class Translate extends PureComponent {
       this.setState({ translatedMessage: null });
       return;
     }
+
+    // The translation is (obviously) asynchronous, however the props change
+    // will trigger a re-render. We don't want to attempt to render with a
+    // "stale" message, so let's unset it before we do our work.
+    this.setState({ translatedMessage: null });
 
     translate({ source, target, q: message })
       .then(result => {

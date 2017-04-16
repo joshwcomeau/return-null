@@ -77,7 +77,7 @@ export default class Presentation extends React.Component {
 
         {/* Ryan Florence React Rally */}
         <Slide bgImage={images.reactRally} />
-        
+
         {/* Simple example of a renderless component */}
         <CodeSlide
           code={require("raw-loader!./code-samples/BasicExample")}
@@ -89,7 +89,7 @@ export default class Presentation extends React.Component {
         />
 
         <Slide>
-          <Heading size={2}>Usecases</Heading>
+          <Heading size={2}>Other Usecases</Heading>
 
           <List>
             <ListItem>Event Handlers</ListItem>
@@ -104,10 +104,6 @@ export default class Presentation extends React.Component {
           <Heading fit textColor="primary">Event Listeners</Heading>
         </Slide>
 
-        <Slide bgColor="secondary">
-          ...Stuff about event listeners
-        </Slide>
-
         <Slide bgColor="tertiary">
           <DictationBox />
         </Slide>
@@ -115,7 +111,11 @@ export default class Presentation extends React.Component {
         <CodeSlide
           code={require("raw-loader!./code-samples/Speak-consumption")}
           ranges={[
-            { loc: [0, 3], title: "It's a component!" },
+            { loc: [0, 0], title: "Let's see here... 🔎" },
+            { loc: [0, 2] },
+            { loc: [3, 19] },
+            { loc: [8, 14] },
+            { loc: [15, 16], title: "🤔"}
           ]}
         />
 

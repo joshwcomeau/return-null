@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 import { css } from 'aphrodite';
 
 import Speak from '../Speak';
+import ToggleButtonGroup from '../ToggleButtonGroup';
 import Translate from '../Translate';
 import styles from './DictationBoxWithTranslate.styles';
 
@@ -51,21 +52,15 @@ class DictationBoxWithTranslate extends Component {
           defaultValue={message}
         />
 
-        <div className={css(styles.buttonRow)}>
-          <button
-            className={css(styles.button, target === 'en' && styles.active)}
-            onClick={() => target !== 'en' && this.changeTarget('en')}
-          >
-            English
-          </button>
-
-          <button
-            className={css(styles.button, target === 'fr' && styles.active)}
-            onClick={() => target !== 'fr' && this.changeTarget('fr')}
-          >
-            French
-          </button>
-        </div>
+        <ToggleButtonGroup
+          className={styles.buttonRow}
+          buttons={[
+            { label: 'English', value: 'en' },
+            { label: 'French', value: 'fr' },
+          ]}
+          active={target}
+          onToggle={this.changeTarget}
+        />
 
         <Translate source="en" target={target} message={message}>
           {translatedMessage => (
@@ -76,6 +71,5 @@ class DictationBoxWithTranslate extends Component {
     );
   }
 };
-
 
 export default DictationBoxWithTranslate;
