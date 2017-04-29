@@ -1,0 +1,42 @@
+class DictationBox extends Component {
+  state = {
+    message: '',
+    target: 'en',
+  }
+
+  render() {
+    const { message, target } = this.state;
+
+    return (
+      <div>
+        <textarea
+          placeholder="Add some text here..."
+          onChange={ev => (
+            this.setState({ message: ev.target.value })
+          )}
+        />
+
+        <ButtonGroup
+          data={[
+            { label: 'English', value: 'en' },
+            { label: 'French', value: 'fr' },
+          ]}
+          // Snipped handlers and such
+        />
+
+        <Translate
+          source="en"
+          target={target}
+          message={message}
+        >
+          {translatedMessage => (
+            <Speak
+              language={target}
+              message={translatedMessage}
+            />
+          )}
+        </Translate>
+      </div>
+    );
+  }
+}

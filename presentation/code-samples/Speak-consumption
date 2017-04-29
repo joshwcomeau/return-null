@@ -2,8 +2,6 @@ class DictationBox extends Component {
   state = { message: '' }
 
   render() {
-    const { message } = this.state;
-
     return (
       <div>
         <textarea
@@ -13,7 +11,7 @@ class DictationBox extends Component {
           )}
         />
 
-        <Speak message={message} />
+        <Speak message={this.state.message} />
       </div>
     )
   }

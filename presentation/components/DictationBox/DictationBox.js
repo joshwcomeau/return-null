@@ -41,10 +41,9 @@ class DictationBox extends Component {
           placeholder="Add some text here..."
           className={css(styles.textarea)}
           onChange={this.handleTextareaChange}
-          defaultValue={message}
         />
 
-      <Speak message={message} />
+        <Speak message={message} />
       </div>
     );
   }

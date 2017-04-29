@@ -1,7 +1,9 @@
 class Log extends PureComponent {
-  render() {
+  componentDidUpdate() {
     console.log(this.children);
+  }
 
+  render() {
     return null;
   }
 }

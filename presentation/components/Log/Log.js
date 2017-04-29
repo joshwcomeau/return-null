@@ -1,9 +1,11 @@
 import { PureComponent } from 'react';
 
 export default class Log extends PureComponent {
-  render() {
+  componentDidUpdate() {
     console.info(this.props.children);
+  }
 
+  render() {
     return null;
   }
 }

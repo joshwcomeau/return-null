@@ -12,7 +12,6 @@ class Translate extends PureComponent {
   }
 
   state = {
-    pending: true,
     translatedMessage: null,
   }
 

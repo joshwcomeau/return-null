@@ -15,13 +15,9 @@ class Speak extends PureComponent {
     language: 'en',
   }
 
-  constructor(props: Props) {
-    super(props);
+  utterance = new window.SpeechSynthesisUtterance()
 
-    this.utterance = new window.SpeechSynthesisUtterance();
-
-    this.updateUtterance(props);
-
+  componentDidMount() {
     // The very first time we try to access the voices, none will be found.
     // This is because they're loaded async when requested.
     window.speechSynthesis.onvoiceschanged = () => {
@@ -29,28 +25,25 @@ class Speak extends PureComponent {
     }
   }
 
-  componentWillUpdate(nextProps: Props) {
+  componentDidUpdate() {
+    const { language, message } = this.props;
     window.speechSynthesis.cancel();
 
-    this.updateUtterance(nextProps);
+    this.utterance.voice = window.speechSynthesis.getVoices().find(voice => (
+      voice.lang.startsWith(language)
+    ));
+
+    this.utterance.lang = language;
+    this.utterance.text = message;
+
+    window.speechSynthesis.speak(this.utterance);
   }
 
   componentWillUnmount() {
     window.speechSynthesis.cancel();
   }
 
-  updateUtterance(props: Props) {
-    this.utterance.voice = window.speechSynthesis.getVoices().find(voice => (
-      voice.lang.startsWith(props.language)
-    ));
-
-    this.utterance.lang = props.language;
-    this.utterance.text = props.message;
-  }
-
   render() {
-    window.speechSynthesis.speak(this.utterance);
-
     return null;
   }
 }

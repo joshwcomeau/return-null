@@ -1,0 +1,41 @@
+import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
+import translate from '../../services/translate';
+
+
+class Translate extends PureComponent {
+  static propTypes = {
+    message: PropTypes.string.isRequired,
+    source: PropTypes.string.isRequired,
+    target: PropTypes.string.isRequired,
+  }
+
+  state = {
+    translatedMessage: null,
+  }
+
+  componentWillReceiveProps({ source, target, message }) {
+    // The translation is (obviously) asynchronous,
+    // however the prop-change will trigger a re-render.
+    // We don't want to attempt to render with a "stale"
+    // message, so let's unset it before we do our work.
+    this.setState({ translatedMessage: null });
+
+    translate({ source, target, q: message })
+      .then(result => {
+        this.setState({ translatedMessage: result });
+      });
+  }
+
+  render() {
+    const { translatedMessage } = this.state;
+    const { children } = this.props;
+
+    return translatedMessage
+      ? children(translatedMessage)
+      : null;
+  }
+};
+
+export default Translate;

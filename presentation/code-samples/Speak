@@ -1,7 +1,3 @@
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-
 class Speak extends PureComponent {
   static propTypes = {
     language: PropTypes.string,
@@ -12,49 +8,37 @@ class Speak extends PureComponent {
     language: 'en',
   }
 
-  constructor(props) {
-    super(props);
+  utterance = new window.SpeechSynthesisUtterance()
 
-    this.utterance = new window.SpeechSynthesisUtterance();
-
-    this.updateUtterance(props);
-
-    // When the browser loads, it doesn't automatically try
-    // to figure out which voices are available. We need to
-    // create an utterance for it to check, and this is an
-    // asynchronous process.
-    // So we need to register a callback.
-    // Real life is messy.
-    window.speechSynthesis.onvoiceschanged = () => (
+  componentDidMount() {
+    // The very first time we try to access the voices,
+    // none will be found.
+    // This is because they're loaded async when requested.
+    window.speechSynthesis.onvoiceschanged = () => {
       this.forceUpdate()
-    );
+    };
   }
 
-  componentWillUpdate(nextProps) {
+  componentDidUpdate() {
+    const { language, message } = this.props;
+
     window.speechSynthesis.cancel();
 
-    this.updateUtterance(nextProps);
+    this.utterance.voice = window.speechSynthesis
+      .getVoices()
+      .find(voice => voice.lang.startsWith(language));
+
+    this.utterance.lang = language;
+    this.utterance.text = message;
+
+    window.speechSynthesis.speak(this.utterance);
   }
 
   componentWillUnmount() {
     window.speechSynthesis.cancel();
   }
 
-  updateUtterance(props) {
-    this.utterance.voice = window.speechSynthesis
-      .getVoices()
-      .find(voice => (
-        voice.lang === props.language
-      ));
-
-    this.utterance.text = props.children;
-  }
-
   render() {
-    window.speechSynthesis.speak(this.utterance);
-
     return null;
   }
 }
-
-export default Speak;
