@@ -52,6 +52,8 @@ class Translate extends PureComponent {
   render() {
     const { translatedMessage } = this.state;
 
+    console.log('Rendering', translatedMessage);
+
     if (translatedMessage) {
       return this.props.children(translatedMessage);
     }

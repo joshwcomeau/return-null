@@ -25,8 +25,13 @@ class Speak extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
+  componentWillUnmount() {
+    window.speechSynthesis.cancel();
+  }
+
+  speak() {
     const { language, message } = this.props;
+
     window.speechSynthesis.cancel();
 
     this.utterance.voice = window.speechSynthesis.getVoices().find(voice => (
@@ -39,11 +44,9 @@ class Speak extends PureComponent {
     window.speechSynthesis.speak(this.utterance);
   }
 
-  componentWillUnmount() {
-    window.speechSynthesis.cancel();
-  }
-
   render() {
+    this.speak();
+
     return null;
   }
 }

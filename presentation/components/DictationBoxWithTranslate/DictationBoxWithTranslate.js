@@ -64,7 +64,10 @@ class DictationBoxWithTranslate extends Component {
 
         <Translate source="en" target={target} message={message}>
           {translatedMessage => (
-            <Speak language={target} message={translatedMessage} />
+            <div>
+              {console.log('Rendering dict with', translatedMessage)}
+              <Speak language={target} message={translatedMessage} />
+            </div>
           )}
         </Translate>
       </div>
