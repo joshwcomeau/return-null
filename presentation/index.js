@@ -135,7 +135,7 @@ export default class Presentation extends React.Component {
         <CodeSlide
           code={require("raw-loader!./code-samples/Speak-consumption")}
           ranges={[
-            { loc: [0, 19], title: "Let's see here... 🔎" },
+            { loc: [0, 19], title: "🔎" },
             { loc: [0, 2] },
             { loc: [6, 12] },
             { loc: [13, 14], title: "🤔"}
@@ -155,10 +155,30 @@ export default class Presentation extends React.Component {
           ]}
         />
 
-        <Slide bgImage={images.willItBlend} />
+        <Slide
+          notes={`
+            So, that's kinda cool.
+            <br /><br />
+            The big benefit so far is that DictationBox doesn't have to be
+            at all concerned with the Speaking business. We've encapsulated that concern better than we could have if we were just calling helper methods, and now we can use that Speak component wherever.
+            <br /><br />
+            While building this, though, I realized that I'd be delivering
+            this talk in France, and it really should be bilingual.
+          `}
+        >
+          <Heading fit>So, that's kinda cool...</Heading>
+        </Slide>
+
+        <Slide
+          notes={`
+            I didn't want to overload the Speak component with translation
+            logic, though. So I wondered...
+          `}
+          bgImage={images.willItBlend}
+        />
 
         <Slide bgImage={images.willItBlend} bgDarken={0.5}>
-          <Heading>Will It Compose?</Heading>
+          <Heading textColor="primary">Will It Compose?</Heading>
         </Slide>
 
         <Slide bgColor="tertiary">
@@ -191,15 +211,6 @@ export default class Presentation extends React.Component {
         <Slide bgImage={images.yesItBlends} />
         <Slide bgImage={images.yesItBlends} bgDarken={0.5}>
           <Heading>Yes it composes!</Heading>
-        </Slide>
-
-        <Slide>
-          <Heading>But Why?</Heading>
-          <List>
-            <ListItem>Reactivity for free</ListItem>
-            <ListItem>Declarative consumption</ListItem>
-            <ListItem>Forces good habits</ListItem>
-          </List>
         </Slide>
 
         <Slide>
@@ -243,7 +254,7 @@ export default class Presentation extends React.Component {
 
 
         <Slide>
-          <Heading size={2}>Other Usecases</Heading>
+          <Heading size={2}>Thanks!</Heading>
 
           <List>
           </List>
