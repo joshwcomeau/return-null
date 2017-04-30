@@ -179,7 +179,7 @@ export default class Presentation extends React.Component {
         />
 
         <Slide bgImage={images.willItBlend} bgDarken={0.5}>
-          <Heading textColor="primary">Will It Compose?</Heading>
+          <Heading fit textColor="primary">Will It Compose?</Heading>
         </Slide>
 
         <CodeSlide
@@ -212,7 +212,7 @@ export default class Presentation extends React.Component {
 
         <Slide bgImage={images.yesItBlends} />
         <Slide bgImage={images.yesItBlends} bgDarken={0.5}>
-          <Heading textColor="primary">Yes it composes!</Heading>
+          <Heading fit textColor="primary">Yes, it composes!</Heading>
         </Slide>
 
         <Slide>
