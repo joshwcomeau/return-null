@@ -148,10 +148,11 @@ export default class Presentation extends React.Component {
             { loc: [0, 270], title: "Let's see how it works." },
             { loc: [0, 9] },
             { loc: [10, 11] },
-            { loc: [12, 20] },
-            { loc: [21, 35] },
-            { loc: [36, 39] },
-            { loc: [40, 43] },
+            { loc: [12, 22] },
+            { loc: [23, 28] },
+            { loc: [29, 32] },
+            { loc: [33, 45] },
+            { loc: [46, 49] },
           ]}
         />
 
@@ -181,36 +182,37 @@ export default class Presentation extends React.Component {
           <Heading textColor="primary">Will It Compose?</Heading>
         </Slide>
 
-        <Slide bgColor="tertiary">
-          <DictationBoxWithTranslate />
-        </Slide>
-
         <CodeSlide
           code={require("raw-loader!./code-samples/Translate-consumption")}
           ranges={[
             { loc: [0, 1], title: 'New and Improved DictationBox' },
             { loc: [0, 17] },
             { loc: [18, 25] },
-            { loc: [26, 40] },
+            { loc: [26, 38] },
           ]}
         />
 
         <CodeSlide
           code={require("raw-loader!./code-samples/Translate")}
           ranges={[
-            { loc: [0, 4], title: 'Translate Implementation' },
-            { loc: [6, 16] },
-            { loc: [17, 29] },
-            { loc: [30, 38] },
+            { loc: [0, 39], title: 'Translate Implementation' },
+            { loc: [0, 1] },
+            { loc: [2, 12] },
+            { loc: [13, 26] },
+            { loc: [27, 35] },
           ]}
           notes={`
             I created a little service to communicate with the Google Translate API
           `}
         />
 
+        <Slide bgColor="tertiary">
+          <DictationBoxWithTranslate />
+        </Slide>
+
         <Slide bgImage={images.yesItBlends} />
         <Slide bgImage={images.yesItBlends} bgDarken={0.5}>
-          <Heading>Yes it composes!</Heading>
+          <Heading textColor="primary">Yes it composes!</Heading>
         </Slide>
 
         <Slide>
@@ -256,8 +258,11 @@ export default class Presentation extends React.Component {
         <Slide>
           <Heading size={2}>Thanks!</Heading>
 
-          <List>
-          </List>
+          <br /><br />
+          <Heading fit>
+            github.com/joshwcomeau/return-null
+          </Heading>
+
         </Slide>
       </Deck>
     );

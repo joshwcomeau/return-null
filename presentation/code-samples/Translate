@@ -1,8 +1,4 @@
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
 import translate from '../../services/translate';
-
 
 class Translate extends PureComponent {
   static propTypes = {
@@ -16,13 +12,14 @@ class Translate extends PureComponent {
   }
 
   componentWillReceiveProps({ source, target, message }) {
-    // The translation is (obviously) asynchronous,
-    // however the prop-change will trigger a re-render.
-    // We don't want to attempt to render with a "stale"
-    // message, so let's unset it before we do our work.
+    // NOTE: snipped some validation business, for brevity.
+
+    // Unset the message on each update, so that we delay
+    // rendering the children until the translation is
+    // completed.
     this.setState({ translatedMessage: null });
 
-    translate({ source, target, q: message })
+    translate({ source, target, message })
       .then(result => {
         this.setState({ translatedMessage: result });
       });
@@ -37,5 +34,3 @@ class Translate extends PureComponent {
       : null;
   }
 };
-
-export default Translate;
