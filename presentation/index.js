@@ -101,7 +101,7 @@ export default class Presentation extends React.Component {
             Something I've come to realize, though, is that this 'component' pattern is useful for more than just visual UI.
             When you use React components, you get a lot of things "for free", things like lifecycle hooks, internal state...
             <br /><br />
-            To illustrate this idea, today I'll be sharing some components that don't render anything, that \`return null;\`.
+            To illustrate this idea, today I'll be sharing some components that don't render anything to the DOM.
           `}
         >
           <Heading size={3} textColor="primary">So, components...</Heading>
@@ -113,6 +113,8 @@ export default class Presentation extends React.Component {
             So, first, what do I mean by a renderless component?
             <br /><br />
             Here's a totally contrived example that can be used for console logging.
+            <br /><br />
+            (As an aside, this could actually be made into something useful. For example, you could disable logging in prod, use console groups, etc)
           `}
           code={require("raw-loader!./code-samples/BasicExample")}
           ranges={[
@@ -158,10 +160,14 @@ export default class Presentation extends React.Component {
 
         <Slide
           notes={`
-            So, that's kinda cool.
+            So, that's kinda cool, but what have we gained?
             <br /><br />
             The big benefit so far is that DictationBox doesn't have to be
-            at all concerned with the Speaking business. We've encapsulated that concern better than we could have if we were just calling helper methods, and now we can use that Speak component wherever.
+            at all concerned with the Speaking business. We've encapsulated that concern.
+            <br /><br />
+            You might say that we could have encapsulated it just as well using helper functions, but that's not entirely true; the Web Speech API, like so many other APIs, has some quirks, and so we'd need to add several lifecycle methods to DictationBox, deal with the async loading of voices, etc.
+            <br /><br />
+            better than we could have if we were just calling helper methods, and now we can use that Speak component wherever.
             <br /><br />
             While building this, though, I realized that I'd be delivering
             this talk in France, and it really should be bilingual.
