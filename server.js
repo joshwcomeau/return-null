@@ -8,7 +8,7 @@ var config = require("./webpack.config");
 var app = express();
 var compiler = webpack(config);
 
-var serverPort = process.env.PORT || 3000;
+var serverPort = process.env.PORT || 3004;
 
 app.use(require("webpack-dev-middleware")(compiler, {
   noInfo: true,
@@ -18,6 +18,7 @@ app.use(require("webpack-dev-middleware")(compiler, {
 app.use(require("webpack-hot-middleware")(compiler));
 
 app.get("*", function(req, res) {
+    console.log('\n\n\nGOT')
   res.sendFile(path.join(__dirname, "index.html"));
 });
 

@@ -1,10 +1,10 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import translate from '../../services/translate';
 
 
-class Translate extends PureComponent {
+class Translate extends Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
     source: PropTypes.string.isRequired,
@@ -13,6 +13,10 @@ class Translate extends PureComponent {
 
   state = {
     translatedMessage: null,
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.translatedMessage !== nextState.translatedMessage;
   }
 
   componentWillReceiveProps({ source, target, message }) {
@@ -38,11 +42,6 @@ class Translate extends PureComponent {
       return;
     }
 
-    // The translation is (obviously) asynchronous, however the props change
-    // will trigger a re-render. We don't want to attempt to render with a
-    // "stale" message, so let's unset it before we do our work.
-    this.setState({ translatedMessage: null });
-
     translate({ source, target, q: message })
       .then(result => {
         this.setState({ translatedMessage: result });
@@ -52,18 +51,12 @@ class Translate extends PureComponent {
   render() {
     const { translatedMessage } = this.state;
 
-    console.log('Rendering', translatedMessage);
-
     if (translatedMessage) {
       return this.props.children(translatedMessage);
     }
 
     return null;
   }
-};
-
-Translate.defaultProps = {
-
 };
 
 export default Translate;

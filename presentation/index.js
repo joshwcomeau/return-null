@@ -29,6 +29,7 @@ require("spectacle/lib/themes/default/index.css");
 
 const images = {
   KALogo: require("../assets/ka-logo.png"),
+  mario: require("../assets/mario.gif"),
   vInMVC: require("../assets/v-in-mvc.png"),
   kenWheeler: require("../assets/ken-wheeler.jpg"),
   ryanFlorence: require("../assets/ryan-florence.jpg"),
@@ -88,6 +89,16 @@ export default class Presentation extends React.Component {
           <Image src={images.KALogo} width={325} />
         </Slide>
 
+        <Slide notes={`
+          I apologize in advance; I underestimated how long 5 minutes is.
+          As a result I'll be moving pretty fast through stuff. The slides
+          and more info will be made available at the end, so if this stuff
+          interests you, you can check it out in greater detail.
+          `}
+        >
+          <Image fit src={images.mario} />
+        </Slide>
+
         <Slide
           bgColor="secondary"
           notes={`
@@ -119,7 +130,7 @@ export default class Presentation extends React.Component {
           code={require("raw-loader!./code-samples/BasicExample")}
           ranges={[
             { loc: [0, 9], title: "Basic Example: Logging." },
-            { loc: [10, 19] },
+            { loc: [9, 19] },
           ]}
         />
 
@@ -146,15 +157,36 @@ export default class Presentation extends React.Component {
 
         <CodeSlide
           code={require("raw-loader!./code-samples/Speak")}
+          notes={`
+            Takes two props: Language, defaults to "english", and children,
+            which is the message to speak.
+            <br /><br />
+            An 'utterance' is the thing that gets spoken. You pass it to the
+            Web Speech API when it's ready.
+            <br /><br />
+            The Web Speech API has a few quirks, and one of them is that voices
+            are loaded async when you attempt to use them. This means that the
+            very first time we try to say something, we won't have any voices.
+            'forceUpdate' is a native React method, and it triggers a new update
+            cycle, which causes the 'render' method to fire again.
+            <br /><br />
+            Like any good component, we'll ensure that we don't leave any side
+            effects when our component unmounts.
+            <br /><br />
+            Finally, the "speak" method itself. We begin by interrupting any
+          `}
           ranges={[
             { loc: [0, 270], title: "Let's see how it works." },
             { loc: [0, 9] },
             { loc: [10, 11] },
-            { loc: [12, 22] },
-            { loc: [23, 28] },
-            { loc: [29, 32] },
-            { loc: [33, 45] },
-            { loc: [46, 49] },
+            { loc: [12, 17] },
+            { loc: [18, 21] },
+            { loc: [22, 36] },
+            { loc: [25, 26] },
+            { loc: [27, 30] },
+            { loc: [31, 33] },
+            { loc: [34, 35] },
+            { loc: [37, 40] },
           ]}
         />
 
@@ -163,14 +195,20 @@ export default class Presentation extends React.Component {
             So, that's kinda cool, but what have we gained?
             <br /><br />
             The big benefit so far is that DictationBox doesn't have to be
-            at all concerned with the Speaking business. We've encapsulated that concern.
+            at all concerned with the Speaking business. We've encapsulated that
+            concern.
             <br /><br />
-            You might say that we could have encapsulated it just as well using helper functions, but that's not entirely true; the Web Speech API, like so many other APIs, has some quirks, and so we'd need to add several lifecycle methods to DictationBox, deal with the async loading of voices, etc.
-            <br /><br />
-            better than we could have if we were just calling helper methods, and now we can use that Speak component wherever.
+            You might say that we could have encapsulated it just as well using
+            helper functions, but that's not entirely true; the Web Speech API,
+            like so many other APIs, has some quirks, and so we'd need to add
+            several lifecycle methods to DictationBox, deal with the async
+            loading of voices, etc. This way, the entirety of the Speak behaviour
+            can be encapsulated, and reused anywhere.
             <br /><br />
             While building this, though, I realized that I'd be delivering
-            this talk in France, and it really should be bilingual.
+            this talk in France, and it really should be bilingual. As with any
+            work project, the requirements have changed, and now we get to test
+            how adaptable this solution is.
           `}
         >
           <Heading fit>So, that's kinda cool...</Heading>
@@ -189,9 +227,14 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <CodeSlide
+          notes={`
+            Function-as-children: Not the only way for a component to pass
+            data down to its children, but the most explicit. Really elegant
+            pattern.
+          `}
           code={require("raw-loader!./code-samples/Translate-consumption")}
           ranges={[
-            { loc: [0, 1], title: 'New and Improved DictationBox' },
+            { loc: [0, 42], title: 'New and Improved DictationBox' },
             { loc: [0, 17] },
             { loc: [18, 25] },
             { loc: [26, 38] },
@@ -203,9 +246,12 @@ export default class Presentation extends React.Component {
           ranges={[
             { loc: [0, 39], title: 'Translate Implementation' },
             { loc: [0, 1] },
-            { loc: [2, 12] },
-            { loc: [13, 26] },
-            { loc: [27, 35] },
+            { loc: [2, 3] },
+
+            { loc: [5, 16] },
+            { loc: [17, 23] },
+            { loc: [24, 32] },
+            { loc: [33, 38] },
           ]}
           notes={`
             I created a little service to communicate with the Google Translate API

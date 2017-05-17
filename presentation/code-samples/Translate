@@ -1,36 +1,39 @@
 import translate from '../../services/translate';
 
-class Translate extends PureComponent {
+const LANGUAGES = ['en', 'fr', ...];
+
+
+class Translate extends Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
-    source: PropTypes.string.isRequired,
-    target: PropTypes.string.isRequired,
+    source: PropTypes.oneOf(LANGUAGES).isRequired,
+    target: PropTypes.oneOf(LANGUAGES).isRequired,
+    children: PropTypes.function.isRequired,
   }
 
   state = {
     translatedMessage: null,
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.state.translatedMessage !==
+      nextState.translatedMessage
+    );
+  }
+
   componentWillReceiveProps({ source, target, message }) {
     // NOTE: snipped some validation business, for brevity.
 
-    // Unset the message on each update, so that we delay
-    // rendering the children until the translation is
-    // completed.
-    this.setState({ translatedMessage: null });
-
     translate({ source, target, message })
-      .then(result => {
-        this.setState({ translatedMessage: result });
+      .then(translatedMessage => {
+        this.setState({ translatedMessage });
       });
   }
 
   render() {
     const { translatedMessage } = this.state;
-    const { children } = this.props;
 
-    return translatedMessage
-      ? children(translatedMessage)
-      : null;
+    return this.props.children(translatedMessage);
   }
 };
