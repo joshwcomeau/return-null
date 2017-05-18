@@ -1,6 +1,6 @@
 class Log extends PureComponent {
   render() {
-    console.log(this.children);
+    console.log(this.props.children);
 
     return null;
   }

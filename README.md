@@ -330,6 +330,7 @@ Obviously this is not the right solution for all problems, but interesting thing
 You can learn much more about the ideas in this document from these two BAMFs:
 
 • Ryan Florence (specifically his [2016 React Rally talk](https://www.youtube.com/watch?v=kp-NOggyz54)).
+
 • Ken Wheeler (pretty much everything he does)
 
 

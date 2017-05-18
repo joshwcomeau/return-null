@@ -36,6 +36,8 @@ class Speak extends PureComponent {
   }
 
   render() {
+    this.speak();
+
     return null;
   }
 }

@@ -35,6 +35,7 @@ const images = {
   ryanFlorence: require("../assets/ryan-florence.jpg"),
   willItBlend: require("../assets/will-it-blend-smile.jpg"),
   yesItBlends: require("../assets/yes-it-blends.jpg"),
+  parisFlag: require("../assets/paris-flag.png"),
 };
 
 preloader(images);
@@ -81,7 +82,7 @@ export default class Presentation extends React.Component {
           </Heading>
         </Slide>
 
-        <Slide notes={`Hello! I'm Josh, a software engineer at Khan Academy.`}>
+        <Slide notes={`Hello! I'm Josh, a software engineer at Khan Academy.<br /><br />Today I'll be talking about renderless components`}>
           <div style={{ fontSize: 124 }}>👋</div>
           <br />
           <Heading size={3}>I'm Josh</Heading>
@@ -90,10 +91,10 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide notes={`
-          I apologize in advance; I underestimated how long 5 minutes is.
-          As a result I'll be moving pretty fast through stuff. The slides
-          and more info will be made available at the end, so if this stuff
-          interests you, you can check it out in greater detail.
+          I apologize in advance; it turns out, 5 minutes is not a lot of time
+          to explain this stuff! As a result, I'll be talking pretty fast and
+          moving even faster. I'll share a link at the end that covers this stuff
+          in greater depth.
           `}
         >
           <Image fit src={images.mario} />
@@ -102,17 +103,12 @@ export default class Presentation extends React.Component {
         <Slide
           bgColor="secondary"
           notes={`
-            So, today I'd like to talk about components.
-            <br /><br />
-            React components are typically used to render views.
+            So, React components are typically used to render views.
             <br /><br />
             Because this is how they're most often used, it's natural to think of them as template renderers.
-            You write some markup, pass it some data via props, and in return you get stuff rendered to the screen.
+            You write some markup (jsx), pass it some data via props, and in return you get stuff painted to the screen.
             <br /><br />
-            Something I've come to realize, though, is that this 'component' pattern is useful for more than just visual UI.
-            When you use React components, you get a lot of things "for free", things like lifecycle hooks, internal state...
-            <br /><br />
-            To illustrate this idea, today I'll be sharing some components that don't render anything to the DOM.
+            React components give you a lot of additional stuff for free, stuff like lifecycle methods, reactive state, composability... these properties are useful for more than just visual UI.
           `}
         >
           <Heading size={3} textColor="primary">So, components...</Heading>
@@ -158,6 +154,8 @@ export default class Presentation extends React.Component {
         <CodeSlide
           code={require("raw-loader!./code-samples/Speak")}
           notes={`
+            One quick warning: This uses the SpeechSynthesis API, and how it works isn't really germaine to the talk, so I'm going to be doing some handwaving here.
+            <br /><br />
             Takes two props: Language, defaults to "english", and children,
             which is the message to speak.
             <br /><br />
@@ -182,11 +180,7 @@ export default class Presentation extends React.Component {
             { loc: [12, 17] },
             { loc: [18, 21] },
             { loc: [22, 36] },
-            { loc: [25, 26] },
-            { loc: [27, 30] },
-            { loc: [31, 33] },
-            { loc: [34, 35] },
-            { loc: [37, 40] },
+            { loc: [37, 42] },
           ]}
         />
 
@@ -205,13 +199,19 @@ export default class Presentation extends React.Component {
             loading of voices, etc. This way, the entirety of the Speak behaviour
             can be encapsulated, and reused anywhere.
             <br /><br />
-            While building this, though, I realized that I'd be delivering
-            this talk in France, and it really should be bilingual. As with any
-            work project, the requirements have changed, and now we get to test
-            how adaptable this solution is.
+
           `}
         >
           <Heading fit>So, that's kinda cool...</Heading>
+        </Slide>
+
+        <Slide notes={`
+          While building this, though, I realized that I'd be delivering
+          this talk in France, and it really should be bilingual. As with any
+          work project, the requirements have changed, and now we get to test
+          how adaptable this solution is.
+        `}>
+          <Image fit src={images.parisFlag} />
         </Slide>
 
         <Slide
@@ -249,8 +249,8 @@ export default class Presentation extends React.Component {
             { loc: [2, 3] },
 
             { loc: [5, 16] },
-            { loc: [17, 23] },
-            { loc: [24, 32] },
+            { loc: [17, 25] },
+            { loc: [26, 32] },
             { loc: [33, 38] },
           ]}
           notes={`
