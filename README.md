@@ -2,8 +2,11 @@
 ##### React Europe 2017 Talk
 
 > Hey folks! 👋
+>
 > This is the summary of a talk given at React Europe 2017
+>
 > [Insert link here to video when it becomes available]
+>
 > This document also covers some stuff I couldn't fit into the talk - enjoy!
 
 --------
@@ -63,11 +66,6 @@ import { PureComponent } from 'react';
 // Using a PureComponent so that it only re-renders when its props change.
 export default class Log extends PureComponent {
   log() {
-    // Don't render in production
-    if (process.env.NODE_ENV === 'production') {
-      return null;
-    }
-
     // Calculate the owner component, so that we can find its callsite
     // (this depends on react internals and may change at any point, but this
     // has been a stable way to find parents for several years now).
@@ -83,7 +81,10 @@ export default class Log extends PureComponent {
   }
 
   render() {
-    this.log();
+    // Only log in development environment
+    if (process.env.NODE_ENV === 'development') {
+      this.log();
+    }
 
     return null;
   }
@@ -125,10 +126,15 @@ class Speak extends PureComponent {
   }
 
   componentWillUnmount() {
+    // Stop any currently-playing or queued speech from continuing
+    // after this component is unmounted.
     window.speechSynthesis.cancel();
   }
 
   speak() {
+    // This method handles the actual 'speaking', using the SpeechSynthesis
+    // API. For simplicity, we grab the first voice that supports the language
+    // specified in the props.
     const { language, message } = this.props;
 
     window.speechSynthesis.cancel();
