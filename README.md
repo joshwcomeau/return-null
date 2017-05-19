@@ -5,9 +5,10 @@
 >
 > This is the summary of a talk given at React Europe 2017
 >
-> [Insert link here to video when it becomes available]
+> You can [view the slides here](http://return-null.surge.sh/#/), or watch the video [link needed, coming soon].
 >
-> This document also covers some stuff I couldn't fit into the talk - enjoy!
+> I also wrote some stuff below, which details the same ideas with a little more detail.
+
 
 --------
 
@@ -91,13 +92,15 @@ export default class Log extends PureComponent {
 }
 ```
 
+----------
+
 ### A more interesting example
 
-The web continues to advance and bring with it more native APIs that do awesome things. One such example is the Web Speech API.
+The web continues to advance and bring with it more native APIs that do awesome things. One such example is the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API).
 
-The traditional way of using an API like this with React would be to call the API methods (or some lightweight wrapper over them) from your components.
+The traditional way of using an API like this with React would be to call the API methods (or some lightweight wrapper over them) from within your components.
 
-It turns out that by making _the component_ the abstraction, you get a bunch of neat properties for free. Let's take a look at a <Speech /> component:
+It turns out that by making _the component_ the abstraction, you get a bunch of stuff for free. Let's take a look at a `<Speech />` component:
 
 ```jsx
 class Speak extends PureComponent {
@@ -186,20 +189,26 @@ The thing is, most APIs have quirks, and those quirks can only be abstracted so 
 
 For fun, I created an ["alternate universe" version of this code](https://github.com/joshwcomeau/return-null/blob/master/presentation/alternate-universe/speak.js). It exposes a `speak` method and encapsulates the `onvoicesloaded` quirk, as well as handling interrupts.
 
-When you want to use this method, though, you have to do a lot more work than just adding `<Speak message={message} />`:
+When you want to _use_ this method, though, you have to do a lot more work than just adding `<Speak message={message} />`:
 
 ```js
 class DictationBox extends Component {
   state = { message: '' }
 
-  componentWillUnmount() {
-    // We need to do unmount cleanup! This doesn't happen automatically anymore
-    window.speechSynthesis.cancel();
+  componentDidMount() {
+    // BUILDUP
+    // The Web Speech API may mount without its voices loaded, making any
+    // on-mount speech fail.
+    window.speechSynthesis.onvoiceschanged = () => {
+      this.forceUpdate()
+    };
   }
 
-  componentDidMount() {
-    // If we wanted it to speak on-mount, we'd have to add this here.
-    speak(this.state.message);
+  componentWillUnmount() {
+    // TEARDOWN
+    // We need to do unmount cleanup, to ensure that our queue is emptied
+    // when the component is removed.
+    window.speechSynthesis.cancel();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -219,8 +228,6 @@ class DictationBox extends Component {
             this.setState({ message: ev.target.value })
           )}
         />
-
-        <Speak message={this.state.message} />
       </div>
     )
   }
@@ -229,8 +236,10 @@ class DictationBox extends Component {
 
 Even though we've abstracted our `speak` method, there's still a fair bit of plumbing to connect it to our `DictationBox` component!
 
-We need to repeat this plumbing every time we want to use the SpeechSynthesis API. It becomes a lot of duplicated boilerplate that can be removed by encapsulating with a component instead of a function.
+**We need to repeat this plumbing every time we want to use the SpeechSynthesis API.** It becomes a lot of duplicated boilerplate that can be removed by encapsulating with a component instead of a function.
 
+
+----------
 
 
 ### Will It Compose?
@@ -243,7 +252,7 @@ It felt like a distinct, separate concern from Speaking, though; this new concer
 
 I started by sketching out my ideal API. I wanted a `<Translate>` component that would take a `message` as input (along with `source` and `target` languages), and pass a `translatedMessage` down, as output, to a child element.
 
-There are a few ways to do this, but the most explicit is the [`function-as-children` pattern](https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9).
+There are a few ways to do this, but here we're using the [`function-as-children` pattern](https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9).
 
 Here's how that looks:
 
@@ -262,8 +271,7 @@ Here's how that looks:
 </Translate>
 ```
 
-
-Our `<Speak>` component hasn't changed, it's just getting its data from a new source.
+**Our `<Speak>` component hasn't changed**, it's just getting its data from a new source.
 
 Here's what that `<Translate>` component looks like:
 
@@ -315,6 +323,33 @@ class Translate extends Component {
 ```
 
 Here, we're making great use of React state and lifecycle methods to ensure that the children get rendered with the right stuff at the right time. These are tools you don't have when working with traditional functions.
+
+
+    ##### Tangent: Other ways of passing data
+
+    I chose to use the function-as-children pattern because it's the most explicit.
+
+    From the callsite, you can see exactly _how_ `<Translate>` is passing its computed data to `<Speak>`. If you prefer a more concise, implicit version, though, this can also be accomplished with `React.cloneElement`:
+
+    ```jsx
+      // In Translate.jsx
+      render() {
+        return React.cloneElement(this.props.children, {
+          message: this.state.translatedMessage,
+        });
+      }
+
+      // Consuming, within DictationBox:
+      <Translate
+        source="en"
+        target={target}
+        message={message}
+      >
+        <Speak />
+      </Translate>
+    ```
+
+    This method is more terse on the callsite, but it becomes a lot more "magical". If you aren't familiar with Translate's internal mechanism, you might assume that `Speak` doesn't take any props, when really that prop is being injected in behind-the-scenes.
 
 
 ### But wait, there's more!
