@@ -100,7 +100,7 @@ The web continues to advance and bring with it more native APIs that do awesome 
 
 The traditional way of using an API like this with React would be to call the API methods (or some lightweight wrapper over them) from within your components.
 
-It turns out that by making _the component_ the abstraction, you get a bunch of stuff for free. Let's take a look at a `<Speech />` component:
+It turns out that by making _the component_ the abstraction, you get a bunch of stuff for free. Let's take a look at a `<Speak />` component:
 
 ```jsx
 class Speak extends PureComponent {
@@ -244,15 +244,19 @@ Even though we've abstracted our `speak` method, there's still a fair bit of plu
 
 ### Will It Compose?
 
+<img src="https://github.com/joshwcomeau/return-null/blob/master/assets/will-it-blend-smile.jpg" width="50%" />
+
 As I was preparing this talk, I realized that I'd be delivering this talk in Paris. Our humble Speak component is cool, but it's not bilingual!
 
 I started to think: what if I added the ability to translate the given message into another language? So that you can enter `Hello, Paris`, and have it output `Bonjour, Paris`.
 
-It felt like a distinct, separate concern from Speaking, though; this new concern deals with the Google Translate API, not the Web Speech API. And here is where the component-as-encapsulation pattern really shines: composition.
+As with so many real-world projects, the requirements have changed while building the product, and now we get to see how adaptable our solution is.
 
-I started by sketching out my ideal API. I wanted a `<Translate>` component that would take a `message` as input (along with `source` and `target` languages), and pass a `translatedMessage` down, as output, to a child element.
+The work of fetching a translated message from the Google Translate API felt like a distinct concern from using the Web Speech API to speak a message. I didn't want to overload the Speak component with this logic.
 
-There are a few ways to do this, but here we're using the [`function-as-children` pattern](https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9).
+What I needed was a `<Translate>` component. It would do some internal computation, and pass the data down into a `<Speak>` component.
+
+There are a few ways to do this, but I went with the [`function-as-children` pattern](https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9).
 
 Here's how that looks:
 
@@ -294,14 +298,6 @@ class Translate extends Component {
     translatedMessage: null,
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // We only want to re-render when the "output", our translatedMessage,
-    // has changed. This prevents unnecessary re-rendering of children.
-    return (
-      this.state.translatedMessage !== nextState.translatedMessage
-    );
-  }
-
   componentWillReceiveProps({ source, target, message }) {
     // NOTE: snipped some validation business, for brevity.
 
@@ -309,6 +305,14 @@ class Translate extends Component {
       .then(translatedMessage => {
         this.setState({ translatedMessage });
       });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // We only want to re-render when the "output", our translatedMessage,
+    // has changed. This prevents unnecessary re-rendering of children.
+    return (
+      this.state.translatedMessage !== nextState.translatedMessage
+    );
   }
 
   render() {
@@ -322,34 +326,76 @@ class Translate extends Component {
 };
 ```
 
-Here, we're making great use of React state and lifecycle methods to ensure that the children get rendered with the right stuff at the right time. These are tools you don't have when working with traditional functions.
+Here, we're making great use of React state and lifecycle methods to ensure that the children get rendered with the right stuff at the right time. These are tools you don't have when working with traditional functions!
+
+Component composition is a huge benefit to using React components as the abstraction mechanism, instead of functions.
 
 
-    ##### Tangent: Other ways of passing data
 
-    I chose to use the function-as-children pattern because it's the most explicit.
+`<Tangent>`
+##### Other ways of passing computed data
 
-    From the callsite, you can see exactly _how_ `<Translate>` is passing its computed data to `<Speak>`. If you prefer a more concise, implicit version, though, this can also be accomplished with `React.cloneElement`:
+I chose to use the function-as-children pattern to pass data from `<Translate>` to `<Speak>` because it's the most explicit.
 
-    ```jsx
-      // In Translate.jsx
-      render() {
-        return React.cloneElement(this.props.children, {
-          message: this.state.translatedMessage,
-        });
-      }
+From the callsite, you can see exactly _how_ `<Translate>` is passing its computed data to `<Speak>`. If you prefer a more concise, implicit version, though, this can also be accomplished with `React.cloneElement`:
 
-      // Consuming, within DictationBox:
-      <Translate
-        source="en"
-        target={target}
-        message={message}
-      >
-        <Speak />
-      </Translate>
-    ```
+```jsx
+  // In Translate.jsx
+  render() {
+    return React.cloneElement(this.props.children, {
+      message: this.state.translatedMessage,
+    });
+  }
 
-    This method is more terse on the callsite, but it becomes a lot more "magical". If you aren't familiar with Translate's internal mechanism, you might assume that `Speak` doesn't take any props, when really that prop is being injected in behind-the-scenes.
+  // Consuming, within DictationBox:
+  <Translate
+    source="en"
+    target={target}
+    message={message}
+  >
+    <Speak />
+  </Translate>
+```
+
+This method is more terse on the callsite, but it becomes a lot more "magical". If you aren't familiar with Translate's internal mechanism, you might assume that `Speak` doesn't take any props, when really that prop is being injected in behind-the-scenes.
+
+You could also do this as a higher-order component:
+
+```jsx
+// translate.jsx becomes a function that returns a component
+// It takes a component as an argument that will become embedded within our
+// new component
+const translate = ChildComponent => (
+  // This function returns our Translate component, which is very similar to
+  // the Translate component defined originally
+  class Translate extends Component {
+    // props, state, and lifecycle methods all unchanged from above.
+
+    render() {
+      // Our render method now passes the data directly to the provided
+      // child component
+      return (
+        <ChildComponent
+          message={this.state.translatedMessage}
+        />
+      );
+    }
+  }
+)
+
+// Consuming
+const TranslateAndSpeak = translate(Speak);
+
+<TranslateAndSpeak
+  source="en"
+  target={target}
+  message={message}
+/>
+```
+
+This is better than the implicit `cloneElement` solution, IMO, but it's still a step down from the function-as-children pattern. There's less magic, but it feels more complicated, and you have to dive into the `translate.js` HOC to understand it.
+
+`</Tangent>`
 
 
 ### But wait, there's more!
